@@ -1,0 +1,10 @@
+---
+applications:
+- name: create_device_list
+  memory: 512MB
+  buildpack: python_buildpack
+  command: python create_device.py
+  env:
+    SERVICE_NAME: influxdb-stage
+  services:
+  - influx
