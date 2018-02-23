@@ -1,7 +1,7 @@
 ---
 applications:
-- name: create_wave_data
-  memory: 1024MB
+- name: CSC_create_wave_data
+  memory: 512MB
   no-route: true
   buildpack: python_buildpack
   command: python create_data.py
