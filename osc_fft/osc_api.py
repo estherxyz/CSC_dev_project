@@ -13,31 +13,27 @@ import re
 import numpy as np
 from scipy import signal
 
-import matplotlib
-matplotlib.use('Agg')
-import matplotlib.pyplot as plt
-
-import base64
-from io import BytesIO
-
 from influxdb import InfluxDBClient
 
 import osc_grafana as osc  # include define lib for osc in grafana
 import get_env_variable as env_var  # include define lib for get env variable
 
 """
-post data to influxdb on CF.
+Get data from influxdb to compute.
 measurement: cpu_v1
 
 
 api compute for wave transform.
 request from grafana.
+return data for grafana panel.
 """
 
 
 
 app = Flask(__name__)
 
+
+### set connect ###
 
 # # read config file
 # config = configparser.ConfigParser()
@@ -50,10 +46,15 @@ app = Flask(__name__)
 
 # client = InfluxDBClient(host, port, username, password, database)   # connect influxdb
 
+
+# get cf environment variable
 obj = env_var.get_influxdb_info()   # get cf environment variable
 client = InfluxDBClient(obj['host'], obj['port'], obj['username'], obj['password'], obj['database'])   # connect influxdb
 
+
 measurement = 'cpu_v1'
+
+###  ###
 
 
 
@@ -62,6 +63,7 @@ def after_request(response):
     response.headers.add('Access-Control-Allow-Origin', '*')
     response.headers.add('Access-Control-Allow-Headers', 'Content-Type,Authorization')
     response.headers.add('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS')
+    # response.headers['Content-Type'] = 'application/json'
 
     return response
 
@@ -271,5 +273,7 @@ def osc_envelope(query):
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=8080, debug=True)
+    # app.run(host='0.0.0.0', port=5500, debug=True)
+    
     # Careful with the debug mode..
 

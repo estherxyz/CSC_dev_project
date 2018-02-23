@@ -2,7 +2,6 @@ Flask
 requests
 numpy
 scipy
-matplotlib
 influxdb
 gunicorn
 configparser
