@@ -20,7 +20,7 @@ send pair of smartbox, channel data to influxdb with time info.
 
 send data by influxdb python lib.
 time record by python.
-send data each 1 second.
+2 mins, 80000 raw data.
 """
 
 
@@ -39,33 +39,44 @@ send data each 1 second.
 obj = env_var.get_influxdb_info()   # get cf environment variable
 client = InfluxDBClient(obj['host'], obj['port'], obj['username'], obj['password'], obj['database'])   # connect influxdb
 
-measurement = 'cpu_v1'  # influxdb measurement name
+measurement = 'cpu_v1'
 smartbox = ['box1', 'box2']
-channel = ['ch1', 'ch2']
-value = [0, 0]
+channel = ['ch1', 'ch2', 'ch3']
 
 
-time_format = '%Y-%m-%dT%H:%M:%SZ'  # time format
+time_format = '%Y-%m-%dT%H:%M:%S.%fZ'  # time format
 now_time = datetime.datetime.now() - datetime.timedelta(hours=8)    # push to CF
 str_time = now_time.strftime(time_format)   # trans time to string
-print(str_time)
+
+start_time = now_time   # start_time: compute for 2 mins, now_time: coumpute for fill timestamp
 
 
-Fs = 100.0  # sampling rate
-Ts = 1.0/Fs # sampling interval
+Fs = 80000  # count of data
+Ts = 120.0/Fs # 2 mins
 ff = 5  # frequency of the signal
 
-num = 0
-while 1:    # loop
 
-    for t in np.arange(0,1,Ts):
-        now_time = datetime.datetime.now()  # get now time
-        value[0] = 3 * np.sin(2*np.pi*ff*t)    # amplitude=3
-        value[1] = 3 * np.sin(2*np.pi*ff*t) + 2 * np.sin(1*np.pi*ff*t)
+num = 0
+while num<60:    # loop for simulating 2 hours
+
+    # open file
+    data = json.load(open('data.txt'))
+
+    start_time = start_time + datetime.timedelta(minutes=2) # simulation 2 mins
+    now_time = start_time
+
+    num = num + 1
+    json_body = []
+    # print(num)
+
+    for item in data['channel']:
+        # now_time = datetime.datetime.now()  # get now time
+        now_time = now_time + datetime.timedelta(microseconds=Ts*1000000)   # set time interval
+        # print(now_time.strftime(time_format))
 
         
         # smartbox1, ch1
-        json_body = [
+        json_body.append(
             {
                 "measurement": measurement,
                 "tags": {
@@ -74,62 +85,11 @@ while 1:    # loop
                 },
                 "time": now_time.strftime(time_format),
                 "fields": {
-                    "value": value[0]
+                    "value": float(item)
                 }
             }
-        ]
-        client.write_points(json_body)  # write data to influxdb
-
-        # smartbox1, ch2
-        json_body = [
-            {
-                "measurement": measurement,
-                "tags": {
-                    "smartbox": smartbox[0],
-                    "channel": channel[1]
-                },
-                "time": now_time.strftime(time_format),
-                "fields": {
-                    "value": value[1]
-                }
-            }
-        ]
-        client.write_points(json_body)  # write data to influxdb
-
-        # smartbox2, ch1
-        json_body = [
-            {
-                "measurement": measurement,
-                "tags": {
-                    "smartbox": smartbox[1],
-                    "channel": channel[0]
-                },
-                "time": now_time.strftime(time_format),
-                "fields": {
-                    "value": value[0]
-                }
-            }
-        ]
-        client.write_points(json_body)  # write data to influxdb
-
-        # smartbox2, ch2
-        json_body = [
-            {
-                "measurement": measurement,
-                "tags": {
-                    "smartbox": smartbox[1],
-                    "channel": channel[1]
-                },
-                "time": now_time.strftime(time_format),
-                "fields": {
-                    "value": value[1]
-                }
-            }
-        ]
-        client.write_points(json_body)  # write data to influxdb
+        )
 
 
-        time.sleep(1)
-
-
+    client.write_points(json_body)
 
