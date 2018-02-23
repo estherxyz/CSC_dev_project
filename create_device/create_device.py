@@ -49,11 +49,14 @@ def create_device_data():
 
     @param  smartbox: smartbox number for meta data
     @param  channel: channel number for meta data
+    @param  label: show description of smartbox, channel
     """
     smartbox = request.args.get('smartbox', default = '', type = str)
     channel = request.args.get('channel', default = '', type = str)
+    label = request.args.get('label', default = '', type = str)
+    
 
-    if (smartbox=='') or (channel==''):
+    if (smartbox=='') or (channel=='') or (label==''):
         return jsonify({'msg': 'lose param'})
 
 
@@ -63,7 +66,8 @@ def create_device_data():
             "measurement": measurement,
             "tags": {
                 "smartbox": smartbox,
-                "channel": channel
+                "channel": channel,
+                "label": label
             },
             "fields": {
                 "value": 0
@@ -87,6 +91,7 @@ def delete_device_list():
 
 
     return jsonify({'msg': 'success'}), 200
+
 
 
 
