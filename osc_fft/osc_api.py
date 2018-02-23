@@ -96,6 +96,8 @@ def test_2():
 def test_3():
     """
     for simple json
+    
+    controller for firehose write in this function.
     """
     str_msg = 'test simple json with /search'
 
@@ -107,6 +109,8 @@ def test_3():
 def test_4():
     """
     for simple json (return type: (json) time series)
+
+    plotly simple json osc api write in this function.
     """
     obj_req = request.get_json(silent=True)	# get post json
     if obj_req == None:
