@@ -46,7 +46,8 @@ channel = ['ch1', 'ch2', 'ch3']
 
 
 time_format = '%Y-%m-%dT%H:%M:%S.%fZ'  # time format
-now_time = datetime.datetime.now() - datetime.timedelta(hours=8)    # push to CF
+# now_time = datetime.datetime.now() - datetime.timedelta(hours=8)
+now_time = datetime.datetime.now()
 str_time = now_time.strftime(time_format)   # trans time to string
 
 start_time = now_time   # start_time: compute for 2 mins, now_time: coumpute for fill timestamp
@@ -68,7 +69,8 @@ while num<60:    # loop for simulating 2 hours
 
     num = num + 1
     json_body = []
-    # print(num)
+    print(num)
+    print(start_time.strftime(time_format))
 
     for item in data['channel']:
         # now_time = datetime.datetime.now()  # get now time
