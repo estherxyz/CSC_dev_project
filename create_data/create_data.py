@@ -5,6 +5,7 @@ import traceback
 import requests
 from random import *
 import json
+import sys
 # import configparser
 
 from influxdb import InfluxDBClient
@@ -14,7 +15,7 @@ import get_env_variable as env_var  # include define lib for get env variable
 
 """
 post data to influxdb on CF.
-measurement: cpu_v1
+measurement: sys.argv[1]
 
 
 send pair of smartbox, channel data to influxdb with time info.
@@ -40,7 +41,10 @@ time record by python.
 obj = env_var.get_influxdb_info()   # get cf environment variable
 client = InfluxDBClient(obj['host'], obj['port'], obj['username'], obj['password'], obj['database'])   # connect influxdb
 
-measurement = 'cpu_v1'
+
+measurement = str(sys.argv[1])
+print('measurement: ' + measurement)
+
 smartbox = ['box1', 'box2']
 channel = ['ch1', 'ch2', 'ch3']
 
