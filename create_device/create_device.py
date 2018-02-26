@@ -38,7 +38,7 @@ app = Flask(__name__)
 obj = env_var.get_influxdb_info()   # get cf environment variable
 client = InfluxDBClient(obj['host'], obj['port'], obj['username'], obj['password'], obj['database'])   # connect influxdb
 
-measurement = 'device_list'  # influxdb measurement name
+# measurement = 'device_list'  # influxdb measurement name
 
 
 
@@ -51,6 +51,8 @@ def create_device_data():
     @param  channel: channel number for meta data
     @param  label: show description of smartbox, channel
     """
+    measurement = 'device_list' # influxdb measurement name
+
     smartbox = request.args.get('smartbox', default = '', type = str)
     channel = request.args.get('channel', default = '', type = str)
     label = request.args.get('label', default = '', type = str)
@@ -81,13 +83,13 @@ def create_device_data():
 
 
 
-@app.route("/device_list/delete_all", methods=['POST'])
-def delete_device_list():
+@app.route("/device_list/delete_all/<mea_name>", methods=['POST'])
+def delete_device_list(mea_name):
     """
     delete device meta data in influxdb.
     """
-    # delete measurement: device_list
-    client.delete_series(measurement=measurement)
+    # delete measurement: mea_name
+    client.delete_series(measurement=mea_name)
 
 
     return jsonify({'msg': 'success'}), 200

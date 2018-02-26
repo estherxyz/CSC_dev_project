@@ -1,7 +1,7 @@
 ---
 applications:
 - name: CSC_create_device_list
-  memory: 512MB
+  memory: 256MB
   buildpack: python_buildpack
   command: python create_device.py
   env:
