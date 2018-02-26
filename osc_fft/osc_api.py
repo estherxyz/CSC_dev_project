@@ -52,7 +52,7 @@ obj = env_var.get_influxdb_info()   # get cf environment variable
 client = InfluxDBClient(obj['host'], obj['port'], obj['username'], obj['password'], obj['database'])   # connect influxdb
 
 
-measurement = 'cpu_v1'
+# measurement = 'cpu_v1'
 
 ###  ###
 
@@ -123,7 +123,7 @@ def test_4():
     req_param = osc.get_param_list(obj_req['targets'][0]['target']) # (dict) parse request param
 
     # check '_type' is exist
-    if '_type' not in req_param:
+    if ('_type' not in req_param) or ('measurement' not in req_param) :
         return jsonify({
             'EXEC_DESC': '61',
             'message': 'lose wave transformation method.'
@@ -136,6 +136,8 @@ def test_4():
     time_start = osc.trans_time_value(obj_req['range']['from']) # start time
     time_end = osc.trans_time_value(obj_req['range']['to']) # end time
 
+    measurement = req_param['measurement'][0]
+    print ("measurement: " + measurement)
     query = osc.get_query_string(measurement, query_constraint, time_start, time_end)    # get query string
     print("Query string: " + query)
 

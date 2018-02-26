@@ -54,6 +54,9 @@ def get_param_constraint(req_param):
     for key, value in req_param.items():
         if key == '_type':
             continue
+        if key == 'measurement':
+            continue
+            
 
         str_query = '('
         count = 0
