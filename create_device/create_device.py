@@ -83,7 +83,7 @@ def create_device_data():
 
 
 
-@app.route("/device_list/delete_all/<mea_name>", methods=['POST'])
+@app.route("/delete_all/<mea_name>", methods=['POST'])
 def delete_device_list(mea_name):
     """
     delete device meta data in influxdb.
