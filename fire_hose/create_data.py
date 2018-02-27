@@ -6,7 +6,7 @@ import requests
 from random import *
 import json
 import sys
-# import configparser
+import configparser
 
 from influxdb import InfluxDBClient
 import numpy as np
@@ -27,19 +27,19 @@ time record by python.
 
 
 
-# # read config file
-# config = configparser.ConfigParser()
-# config.read('config.ini')
-# host = config['influxdb']['host']
-# port = config['influxdb']['port']
-# database = config['influxdb']['database']
-# username = config['influxdb']['username']
-# password = config['influxdb']['password']
+# read config file
+config = configparser.ConfigParser()
+config.read('config.ini')
+host = config['influxdb']['host']
+port = config['influxdb']['port']
+database = config['influxdb']['database']
+username = config['influxdb']['username']
+password = config['influxdb']['password']
 
-# client = InfluxDBClient(host, port, username, password, database)   # connect influxdb
+client = InfluxDBClient(host, port, username, password, database)   # connect influxdb
 
-obj = env_var.get_influxdb_info()   # get cf environment variable
-client = InfluxDBClient(obj['host'], obj['port'], obj['username'], obj['password'], obj['database'])   # connect influxdb
+# obj = env_var.get_influxdb_info()   # get cf environment variable
+# client = InfluxDBClient(obj['host'], obj['port'], obj['username'], obj['password'], obj['database'])   # connect influxdb
 
 
 measurement = str(sys.argv[1])
