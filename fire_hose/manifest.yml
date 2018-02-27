@@ -6,7 +6,7 @@ applications:
   buildpack: python_buildpack
   command: python create_data.py mea_v1
   env:
-    SERVICE_NAME: influxdb-stage
+    SERVICE_NAME: influxdb-csc
   services:
   - influx
 

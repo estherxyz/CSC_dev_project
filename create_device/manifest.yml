@@ -5,6 +5,6 @@ applications:
   buildpack: python_buildpack
   command: python create_device.py
   env:
-    SERVICE_NAME: influxdb-stage
+    SERVICE_NAME: influxdb-csc
   services:
   - influx
