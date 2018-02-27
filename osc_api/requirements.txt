@@ -1,0 +1,7 @@
+Flask
+requests
+numpy
+scipy
+influxdb
+gunicorn
+configparser

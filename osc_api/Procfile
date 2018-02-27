@@ -1,0 +1,1 @@
+web: gunicorn -w 16 -b 0.0.0.0:8080 osc_api:app
