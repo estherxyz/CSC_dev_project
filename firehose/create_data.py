@@ -9,7 +9,7 @@ import sys
 import configparser
 
 from influxdb import InfluxDBClient
-import numpy as np
+# import numpy as np
 
 import get_env_variable as env_var  # include define lib for get env variable
 
@@ -50,8 +50,8 @@ channel = ['ch1', 'ch2', 'ch3']
 
 
 time_format = '%Y-%m-%dT%H:%M:%S.%fZ'  # time format
-# now_time = datetime.datetime.now() - datetime.timedelta(hours=8)
-now_time = datetime.datetime.now()
+now_time = datetime.datetime.now() - datetime.timedelta(hours=8)
+# now_time = datetime.datetime.now()
 str_time = now_time.strftime(time_format)   # trans time to string
 
 start_time = now_time   # start_time: compute for 2 mins, now_time: coumpute for fill timestamp
