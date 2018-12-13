@@ -22,7 +22,7 @@ send pair of smartbox, channel data to influxdb with time info.
 
 send data by influxdb python lib.
 time record by python.
-2 mins, 80000 raw data.
+1 sec, 8192 raw data.
 """
 
 
@@ -57,8 +57,8 @@ str_time = now_time.strftime(time_format)   # trans time to string
 start_time = now_time   # start_time: compute for 2 mins, now_time: coumpute for fill timestamp
 
 
-Fs = 80000  # count of data
-Ts = 120.0/Fs # 2 mins
+Fs = 8192  # count of data
+Ts = 1.0/Fs # 2 mins
 ff = 5  # frequency of the signal
 
 
@@ -68,7 +68,7 @@ while num<60:    # loop for simulating 2 hours
     # open file
     data = json.load(open('data.txt'))
 
-    start_time = start_time + datetime.timedelta(minutes=2) # simulation 2 mins
+    start_time = start_time + datetime.timedelta(seconds=1) # simulation 1 second
     now_time = start_time
 
     num = num + 1
@@ -76,7 +76,7 @@ while num<60:    # loop for simulating 2 hours
     print(num)
     print(start_time.strftime(time_format))
 
-    for item in data['channel']:
+    for item in data['channel'][0:8192]:
         # now_time = datetime.datetime.now()  # get now time
         now_time = now_time + datetime.timedelta(microseconds=Ts*1000000)   # set time interval
         # print(now_time.strftime(time_format))
