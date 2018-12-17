@@ -7,7 +7,7 @@ import json
 import traceback
 import requests
 import re
-# import configparser
+import configparser
 
 
 import numpy as np
@@ -35,21 +35,21 @@ app = Flask(__name__)
 
 ### set connect ###
 
-# # read config file
-# config = configparser.ConfigParser()
-# config.read('config.ini')
-# host = config['influxdb']['host']
-# port = config['influxdb']['port']
-# database = config['influxdb']['database']
-# username = config['influxdb']['username']
-# password = config['influxdb']['password']
+# read config file
+config = configparser.ConfigParser()
+config.read('config.ini')
+host = config['influxdb']['host']
+port = config['influxdb']['port']
+database = config['influxdb']['database']
+username = config['influxdb']['username']
+password = config['influxdb']['password']
 
-# client = InfluxDBClient(host, port, username, password, database)   # connect influxdb
+client = InfluxDBClient(host, port, username, password, database)   # connect influxdb
 
 
 # get cf environment variable
-obj = env_var.get_influxdb_info()   # get cf environment variable
-client = InfluxDBClient(obj['host'], obj['port'], obj['username'], obj['password'], obj['database'])   # connect influxdb
+# obj = env_var.get_influxdb_info()   # get cf environment variable
+# client = InfluxDBClient(obj['host'], obj['port'], obj['username'], obj['password'], obj['database'])   # connect influxdb
 
 
 # measurement = 'cpu_v1'
