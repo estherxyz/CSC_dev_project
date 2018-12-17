@@ -58,7 +58,7 @@ start_time = now_time   # start_time: compute for 2 mins, now_time: coumpute for
 
 
 Fs = 8192  # count of data
-Ts = 1.0/Fs # 2 mins
+Ts = 1.0/Fs # 1 second
 ff = 5  # frequency of the signal
 
 
