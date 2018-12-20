@@ -10,6 +10,7 @@ import configparser
 
 from influxdb import InfluxDBClient
 # import numpy as np
+import random
 
 import get_env_variable as env_var  # include define lib for get env variable
 
@@ -50,8 +51,8 @@ channel = ['ch1', 'ch2', 'ch3']
 
 
 time_format = '%Y-%m-%dT%H:%M:%S.%fZ'  # time format
-now_time = datetime.datetime.now() - datetime.timedelta(hours=8)
-# now_time = datetime.datetime.now()
+#now_time = datetime.datetime.now() - datetime.timedelta(hours=8)
+now_time = datetime.datetime.now()
 str_time = now_time.strftime(time_format)   # trans time to string
 
 start_time = now_time   # start_time: compute for 2 mins, now_time: coumpute for fill timestamp
@@ -76,7 +77,8 @@ while num<60:    # loop for simulating 2 hours
     print(num)
     print(start_time.strftime(time_format))
 
-    for item in data['channel'][0:8192]:
+#    for item in data['channel'][0:8192]:
+    for item in range(8192):
         # now_time = datetime.datetime.now()  # get now time
         now_time = now_time + datetime.timedelta(microseconds=Ts*1000000)   # set time interval
         # print(now_time.strftime(time_format))
@@ -92,11 +94,15 @@ while num<60:    # loop for simulating 2 hours
                 },
                 "time": now_time.strftime(time_format),
                 "fields": {
-                    "value": float(item)
+#                    "value": float(item)
+                    "value": float(random.randint(3,10)*5.3)
                 }
             }
         )
 
 
     client.write_points(json_body)
+    print('--- example ---')
+    print(json_body[0:5])
+
 
