@@ -119,8 +119,13 @@ def test_4():
             'message': 'request body is wrong'
         }), 400
 
+    
+    req_str = str(obj_req['targets'][0]['target'])[:-10]
+    print('--- request string: ' + req_str)
+    req_param = osc.get_param_list(req_str) # (dict) parse request param
 
-    req_param = osc.get_param_list(obj_req['targets'][0]['target']) # (dict) parse request param
+
+    # req_param = osc.get_param_list(obj_req['targets'][0]['target']) # (dict) parse request param
 
     # check '_type' is exist
     if ('_type' not in req_param) or ('measurement' not in req_param) :
@@ -184,6 +189,8 @@ def osc_fft(query):
             x.append(item[1])
     
     client.close()
+
+    print(x[:5])
 
 
     if len(x) != 0:
